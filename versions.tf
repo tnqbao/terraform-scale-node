@@ -1,18 +1,14 @@
 terraform {
-  required_version = ">= 1.6.0"
-
   required_providers {
     proxmox = {
-      source  = "Telmate/proxmox"
-      version = ">= 2.9.14"
-    }
-    aws = {
-      source  = "hashicorp/aws"
-      version = ">= 5.0"
-    }
-    google = {
-      source  = "hashicorp/google"
-      version = ">= 5.0"
+      source  = "bpg/proxmox"
+      version = ">= 0.40.0"
     }
   }
+}
+
+provider "proxmox" {
+  endpoint  = "https://100.122.172.73:8006/api2/json"
+  api_token = "terraform@pve!mytoken=a5880bcc-17aa-407e-9725-2e460fa09ae8"
+  insecure  = true
 }

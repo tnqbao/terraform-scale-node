@@ -1,81 +1,67 @@
+# Cloud provider chọn để chạy (proxmox, aws, gcp)
 variable "cloud_provider" {
-  description = "Which cloud provider to use: proxmox | aws | gcp"
+  description = "Cloud provider to use"
   type        = string
+  default     = "proxmox"
 }
 
+# VM cấu hình cơ bản
 variable "vm_name" {
   description = "VM name"
   type        = string
-  default     = "debian-vm"
 }
-
 variable "vm_memory" {
-  description = "Memory in MB (for Proxmox/GCP)"
+  description = "RAM (MB)"
   type        = number
   default     = 2048
 }
-
 variable "vm_cores" {
-  description = "Number of CPU cores"
+  description = "CPU cores"
   type        = number
   default     = 2
 }
-
-# Proxmox-specific
-variable "pm_api_url" {
+variable "vm_disk_size" {
+  description = "Disk size"
   type        = string
-  default     = ""
-}
-variable "pm_user" {
-  type        = string
-  default     = ""
-}
-variable "pm_password" {
-  type        = string
-  sensitive   = true
-  default     = ""
+  default     = "20G"
 }
 variable "target_node" {
-  type    = string
-  default = "pve"
-}
-variable "iso_file" {
-  type    = string
-  default = "local:iso/debian-12.5.0-amd64-netinst.iso"
-}
-variable "vm_disk_size" {
-  type    = string
-  default = "20G"
+  description = "Proxmox node"
+  type        = string
 }
 
-# # AWS-specific
-# variable "aws_region" {
-#   type    = string
-#   default = "us-east-1"
-# }
-# variable "ami_id" {
-#   type    = string
-#   default = "" # Debian AMI ID
-# }
-# variable "instance_type" {
-#   type    = string
-#   default = "t2.micro"
-# }
-#
-# # GCP-specific
-# variable "gcp_project" {
-#   type    = string
-#   default = ""
-# }
-# variable "gcp_region" {
-#   type    = string
-#   default = "us-central1"
-# }
-# variable "gcp_zone" {
-#   type    = string
-#   default = "us-central1-a"
-# }
-# variable "gcp_image" {
-#   type    = string
-#   default = "debian-cloud/debian-12"
-# }
+variable "iso_file" {
+  description = "OS ISO file path in Proxmox storage"
+  type        = string
+}
+
+# Proxmox API
+variable "pm_api_url" {
+  description = "Proxmox API URL"
+  type        = string
+}
+variable "pm_user" {
+  description = "Proxmox user"
+  type        = string
+}
+variable "pm_password" {
+  description = "Proxmox password"
+  type        = string
+  sensitive   = true
+}
+
+# Cloud-init tùy chỉnh
+variable "tailscale_auth_key" {
+  description = "Tailscale auth key"
+  type        = string
+  sensitive   = true
+}
+variable "k3s_url" {
+  description = "K3s master URL"
+  type        = string
+}
+variable "k3s_token" {
+  description = "K3s join token"
+  type        = string
+  sensitive   = true
+}
