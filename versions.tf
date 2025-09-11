@@ -8,7 +8,14 @@ terraform {
 }
 
 provider "proxmox" {
-  endpoint  = "https://100.122.172.73:8006/api2/json"
-  api_token = "terraform@pve!mytoken=a5880bcc-17aa-407e-9725-2e460fa09ae8"
+  endpoint  = var.pm_api_url
+  api_token = var.api_token
   insecure  = true
+
+  ssh {
+    agent       = false
+    username    = "root"
+    # private_key = var.private_key
+    password = var.pm_password
+  }
 }

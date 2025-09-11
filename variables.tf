@@ -5,6 +5,16 @@ variable "cloud_provider" {
   default     = "proxmox"
 }
 
+variable "private_key" {
+    description = "SSH private key for Proxmox"
+    type        = string
+}
+
+variable "pm_password" {
+    description = "Proxmox root password"
+    type        = string
+    sensitive   = true
+}
 # VM cấu hình cơ bản
 variable "vm_name" {
   description = "VM name"
@@ -23,15 +33,15 @@ variable "vm_cores" {
 variable "vm_disk_size" {
   description = "Disk size"
   type        = string
-  default     = "20G"
+  default     = 20
 }
 variable "target_node" {
   description = "Proxmox node"
   type        = string
 }
 
-variable "iso_file" {
-  description = "OS ISO file path in Proxmox storage"
+variable "template_id" {
+  description = "Proxmox template VM ID to clone from"
   type        = string
 }
 
@@ -40,12 +50,18 @@ variable "pm_api_url" {
   description = "Proxmox API URL"
   type        = string
 }
-variable "pm_user" {
-  description = "Proxmox user"
+
+variable "api_token" {
+  description = "Proxmox API token in the format 'USER@REAL"
   type        = string
 }
-variable "pm_password" {
-  description = "Proxmox password"
+
+variable "vm_username" {
+  description = "VM user"
+  type        = string
+}
+variable "vm_password" {
+  description = "VM password"
   type        = string
   sensitive   = true
 }
