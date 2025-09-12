@@ -1,0 +1,43 @@
+# Provider Configuration
+cloud_provider = "proxmox"
+
+# Proxmox API Configuration
+pm_api_url  = "https://your-proxmox-server:8006/api2/json"
+api_token   = "user@realm!tokenid=uuid-here"
+pm_password = "your-proxmox-password"
+
+# VM Configuration
+vm_name     = "k3s-node-01"
+target_node = "pve"
+template_id = "9000"
+
+# VM Resources
+vm_cores     = 2
+vm_memory    = 2048
+vm_disk_size = "20G"
+
+# VM User
+vm_username = "tnqbao"
+vm_password = "secure-password-here"
+
+# Optional SSH Keys (recommended for security)
+ssh_authorized_keys = [
+  # "ssh-rsa AAAAB3NzaC1yc2E... your-public-key"
+]
+
+# Tailscale Configuration
+tailscale_auth_key = "tskey-auth-your-key-here"
+
+# K3s Cluster Configuration
+k3s_url   = "https://master-tailscale-ip:6443"
+k3s_token = "your-k3s-token-here"
+
+# Optional: Custom packages
+packages = ["curl", "wget", "sudo", "tailscale", "htop", "vim", "git"]
+
+# Optional: VM Tags
+tags = ["terraform", "k3s-node", "auto-provisioned"]
+
+# Optional: Custom settings
+timezone = "Asia/Ho_Chi_Minh"
+locale   = "en_US.UTF-8"
