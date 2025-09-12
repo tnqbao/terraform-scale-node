@@ -16,4 +16,3 @@ vm_disk_size       = ""
 tailscale_auth_key = ""
 k3s_url            = ""
 k3s_token          = ""
-

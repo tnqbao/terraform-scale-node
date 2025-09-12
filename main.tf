@@ -98,3 +98,4 @@ EOF
     file_name = "${var.vm_name}-cloud-config.yaml"
   }
 }
+

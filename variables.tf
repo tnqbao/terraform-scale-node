@@ -81,3 +81,4 @@ variable "k3s_token" {
   type        = string
   sensitive   = true
 }
+

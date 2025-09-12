@@ -84,7 +84,7 @@ Dự án này tự động hóa việc tạo và cấu hình máy ảo Proxmox �
 ### 1. Clone Repository / Sao chép kho lưu trữ
 ```bash
 git clone <repository-url>
-cd terraforn-scale-node
+cd terraform-scale-node
 ```
 
 ### 2. Configure Environment / Cấu hình môi trường
@@ -110,7 +110,7 @@ terraform apply
 ## Project Structure / Cấu trúc dự án
 
 ```
-terraforn-scale-node/
+terraform-scale-node/
 ├── .env                 # Environment variables / Biến môi trường
 ├── main.tf              # Main Terraform configuration / Cấu hình Terraform chính
 ├── variables.tf         # Variable definitions / Định nghĩa biến

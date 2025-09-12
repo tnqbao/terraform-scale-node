@@ -38,7 +38,7 @@ terraform version
 
 ```bash
 git clone <your-repository-url>
-cd terraforn-scale-node
+cd terraform-scale-node
 ```
 
 ### Step 3: Prepare Environment File / Bước 3: Chuẩn bị file môi trường
@@ -59,7 +59,7 @@ nano .env
 ### Project Structure Explanation / Giải thích cấu trúc dự án
 
 ```
-terraforn-scale-node/
+terraform-scale-node/
 ├── .env                    # Environment variables / Biến môi trường
 ├── main.tf                 # Main Terraform resources / Tài nguyên Terraform chính
 ├── variables.tf            # Input variable definitions / Định nghĩa biến đầu v��o
