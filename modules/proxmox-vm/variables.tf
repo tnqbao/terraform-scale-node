@@ -26,9 +26,9 @@ variable "vm_memory" {
 }
 
 variable "vm_disk_size" {
-  description = "Disk size"
-  type        = string
-  default     = "20G"
+  description = "Disk size in GB"
+  type        = number
+  default     = 32
 }
 
 variable "datastore_id" {

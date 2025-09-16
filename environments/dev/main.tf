@@ -9,14 +9,14 @@ module "dev_vm" {
   source = "../../"
 
   # VM Configuration
-  vm_name     = "k3s-dev-node"
-  target_node = "pve"
-  template_id = "9000"
+  vm_name     = var.vm_name
+  target_node = var.target_node
+  template_id = var.template_id
 
   # Resource allocation for dev
-  vm_cores     = 2
-  vm_memory    = 2048
-  vm_disk_size = "20G"
+  vm_cores     = var.vm_cores
+  vm_memory    = var.vm_memory
+  vm_disk_size = var.vm_disk_size
 
   # Proxmox settings
   pm_api_url = var.pm_api_url
@@ -24,7 +24,7 @@ module "dev_vm" {
   pm_password = var.pm_password
 
   # User configuration
-  vm_username = "devuser"
+  vm_username = var.vm_username
   vm_password = var.vm_password
 
   # Cluster configuration
@@ -33,11 +33,7 @@ module "dev_vm" {
   k3s_token         = var.k3s_token
 
   # Dev-specific packages
-  packages = [
-    "curl", "wget", "sudo", "tailscale",
-    "htop", "vim", "git", "docker.io",
-    "build-essential", "nodejs", "npm"
-  ]
+  packages = var.packages
 
-  tags = ["terraform", "k3s-node", "development"]
+  tags = var.tags
 }

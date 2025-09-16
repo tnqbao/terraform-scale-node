@@ -87,13 +87,13 @@ variable "vm_memory" {
 }
 
 variable "vm_disk_size" {
-  description = "Disk size (e.g., 20G, 100G)"
-  type        = string
-  default     = "20G"
+  description = "Disk size in GB"
+  type        = number
+  default     = 32
 
   validation {
-    condition     = can(regex("^[0-9]+[GM]$", var.vm_disk_size))
-    error_message = "Disk size must be in format like '20G' or '1024M'."
+    condition     = var.vm_disk_size >= 1 && var.vm_disk_size <= 1024
+    error_message = "Disk size must be between 1GB and 1024GB."
   }
 }
 
@@ -119,11 +119,6 @@ variable "vm_password" {
   description = "VM password"
   type        = string
   sensitive   = true
-
-  validation {
-    condition     = length(var.vm_password) >= 8
-    error_message = "Password must be at least 8 characters long."
-  }
 }
 
 variable "ssh_authorized_keys" {
