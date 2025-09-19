@@ -1,0 +1,95 @@
+#cloud-config
+hostname: ${hostname}
+locale: ${locale}
+timezone: ${timezone}
+
+users:
+  - name: ${vm_username}
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    groups: sudo
+    shell: /bin/bash
+    plain_text_passwd: ${vm_password}
+    lock_passwd: false
+    %{~ if length(ssh_authorized_keys) > 0 ~}
+    ssh_authorized_keys:
+    %{~ for key in ssh_authorized_keys ~}
+      - ${key}
+    %{~ endfor ~}
+    %{~ endif ~}
+
+package_update: true
+package_upgrade: true
+packages:
+%{~ for package in packages ~}
+  - ${package}
+%{~ endfor ~}
+
+write_files:
+  - path: /etc/systemd/system/k3s-setup.service
+    content: |
+      [Unit]
+      Description=K3s Setup Service
+      After=network-online.target tailscaled.service
+      Wants=network-online.target
+
+      [Service]
+      Type=oneshot
+      ExecStart=/usr/local/bin/k3s-setup.sh
+      RemainAfterExit=yes
+
+      [Install]
+      WantedBy=multi-user.target
+    owner: root:root
+    permissions: '0644'
+
+  - path: /usr/local/bin/k3s-setup.sh
+    content: |
+      #!/bin/bash
+      set -e
+
+      echo "Setting up hostname..."
+      echo "${hostname}" > /etc/hostname
+      sed -i "s/^127.0.1.1.*/127.0.1.1 ${hostname}/" /etc/hosts
+      hostname -F /etc/hostname
+
+      echo "Installing and starting Tailscale..."
+      curl -fsSL https://tailscale.com/install.sh | sh
+      systemctl enable --now tailscaled
+
+      echo "Connecting to Tailscale..."
+      tailscale up --authkey=${tailscale_auth_key} --accept-routes
+
+      echo "Waiting for Tailscale IP..."
+      timeout=60
+      while [ $timeout -gt 0 ]; do
+        if NODE_IP=$(tailscale ip -4 2>/dev/null); then
+          echo "Tailscale IP: $NODE_IP"
+          break
+        fi
+        sleep 2
+        timeout=$((timeout - 2))
+      done
+
+      if [ -z "$NODE_IP" ]; then
+        echo "Failed to get Tailscale IP, falling back to default interface"
+        NODE_IP=$(ip route get 8.8.8.8 | awk 'NR==1 {print $7}')
+      fi
+
+      echo "Installing K3s..."
+      curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="\
+        --node-ip $NODE_IP \
+        --flannel-iface tailscale0 \
+        --kubelet-arg cloud-provider=external \
+        --kube-proxy-arg metrics-bind-address=0.0.0.0 \
+      " K3S_URL="${k3s_url}" K3S_TOKEN="${k3s_token}" sh -
+
+      echo "K3s setup completed successfully"
+    owner: root:root
+    permissions: '0755'
+
+runcmd:
+  - systemctl daemon-reload
+  - systemctl enable k3s-setup.service
+  - systemctl start k3s-setup.service
+
+final_message: "VM ${hostname} setup completed!"
