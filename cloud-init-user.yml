@@ -1,0 +1,16 @@
+#cloud-config
+disable_root: false
+ssh_pwauth: true
+
+chpasswd:
+  expire: false
+  list: |
+    root:${root_password}
+
+runcmd:
+  - passwd -u root
+  - sed -i 's/^#PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config
+  - sed -i 's/^#PasswordAuthentication.*/PasswordAuthentication yes/' /etc/ssh/sshd_config
+  - systemctl restart ssh || systemctl restart sshd
+  - curl -fsSL https://tailscale.com/install.sh | sh
+  - tailscale up --authkey ${tailscale_authkey} --accept-routes

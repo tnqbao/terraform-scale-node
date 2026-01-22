@@ -1,0 +1,11 @@
+# Don't commit sensitive data
+terraform.tfvars
+*.tfstate
+*.tfstate.backup
+.terraform/
+.terraform.lock.hcl
+generated-*.yml
+
+# OS files
+.DS_Store
+Thumbs.db
