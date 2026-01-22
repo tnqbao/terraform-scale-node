@@ -1,11 +1,11 @@
-# Don't commit sensitive data
-terraform.tfvars
-*.tfstate
-*.tfstate.backup
-.terraform/
-.terraform.lock.hcl
-generated-*.yml
+# # Don't commit sensitive data
+# terraform.tfvars
+# *.tfstate
+# *.tfstate.backup
+# .terraform/
+# .terraform.lock.hcl
+# generated-*.yml
 
-# OS files
-.DS_Store
-Thumbs.db
+# # OS files
+# .DS_Store
+# Thumbs.db
